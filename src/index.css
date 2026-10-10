@@ -7,13 +7,32 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: #090a0c;
-  color: #f4f4f5;
+  background-color: #fcfcfd;
+  color: #18181b;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background-color: #27272a;
-  color: #fafafa;
+  background-color: #18181b;
+  color: #ffffff;
+}
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f4f4f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowUpRight, ExternalLink } from 'lucide-react';
+import { ArrowUpRight, ExternalLink, Smartphone } from 'lucide-react';
 import { Project, RESUME_DATA } from '../data/resume';
 import { ProjectModal } from './ProjectModal';
 
@@ -13,26 +13,30 @@ export const Projects: React.FC = () => {
   });
 
   return (
-    <section id="projects" className="py-16 border-b border-zinc-800/80">
+    <section id="projects" className="py-16 border-b border-zinc-200/80">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
         <div>
-          <h2 className="text-xl font-semibold tracking-tight text-zinc-100">
+          <div className="flex items-center gap-2 text-xs font-mono text-blue-600 uppercase tracking-wider font-semibold">
+            <Smartphone className="h-3.5 w-3.5" />
+            <span>Production Portfolio</span>
+          </div>
+          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-900">
             Selected Projects & Apps Shipped
           </h2>
-          <p className="mt-1 text-sm text-zinc-400 max-w-xl">
-            Production apps published to Google Play Store and Apple App Store, with full lifecycle ownership from schema to deployment.
+          <p className="mt-1 text-sm text-zinc-600 max-w-xl">
+            Real applications published to Google Play Store and Apple App Store, with full lifecycle ownership from database schema to deployment.
           </p>
         </div>
 
         {/* Interactive Segmented Filter Controls */}
-        <div className="flex items-center gap-1 p-1 bg-zinc-900 border border-zinc-800/80 rounded-lg self-start sm:self-auto">
+        <div className="flex items-center gap-1 p-1 bg-zinc-100 border border-zinc-200 rounded-lg self-start sm:self-auto">
           <button
             onClick={() => setFilter('all')}
             type="button"
-            className={`px-3 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap shrink-0 ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap shrink-0 ${
               filter === 'all'
-                ? 'bg-zinc-800 text-zinc-100 shadow-sm'
-                : 'text-zinc-400 hover:text-zinc-200'
+                ? 'bg-white text-zinc-900 shadow-2xs'
+                : 'text-zinc-600 hover:text-zinc-900'
             }`}
           >
             All Work ({RESUME_DATA.projects.length})
@@ -40,10 +44,10 @@ export const Projects: React.FC = () => {
           <button
             onClick={() => setFilter('mobile')}
             type="button"
-            className={`px-3 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap shrink-0 ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap shrink-0 ${
               filter === 'mobile'
-                ? 'bg-zinc-800 text-zinc-100 shadow-sm'
-                : 'text-zinc-400 hover:text-zinc-200'
+                ? 'bg-white text-zinc-900 shadow-2xs'
+                : 'text-zinc-600 hover:text-zinc-900'
             }`}
           >
             Mobile Apps (3)
@@ -51,10 +55,10 @@ export const Projects: React.FC = () => {
           <button
             onClick={() => setFilter('fullstack')}
             type="button"
-            className={`px-3 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap shrink-0 ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap shrink-0 ${
               filter === 'fullstack'
-                ? 'bg-zinc-800 text-zinc-100 shadow-sm'
-                : 'text-zinc-400 hover:text-zinc-200'
+                ? 'bg-white text-zinc-900 shadow-2xs'
+                : 'text-zinc-600 hover:text-zinc-900'
             }`}
           >
             Full-Stack Systems (1)
@@ -67,50 +71,52 @@ export const Projects: React.FC = () => {
         {filteredProjects.map((project) => (
           <div
             key={project.id}
-            className="flex flex-col justify-between rounded-lg border border-zinc-800/80 bg-zinc-950/60 p-6 sm:p-7 hover:border-zinc-700/80 transition-colors"
+            className="flex flex-col justify-between rounded-xl border border-zinc-200 bg-white p-6 sm:p-7 shadow-xs hover:border-zinc-300 hover:shadow-md transition-all duration-200"
           >
             <div>
-              {/* Platforms metadata - clean unboxed text */}
-              <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-zinc-500 mb-2.5">
-                <span>{project.category === 'mobile' ? 'Mobile App' : 'Full-Stack Platform'}</span>
-                <span aria-hidden="true">·</span>
+              {/* Platforms metadata */}
+              <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-zinc-500 mb-2">
+                <span className="font-semibold text-blue-600">
+                  {project.category === 'mobile' ? 'Mobile App' : 'Full-Stack Platform'}
+                </span>
+                <span aria-hidden="true" className="text-zinc-300">·</span>
                 <span>{project.platforms.join(' / ')}</span>
               </div>
 
               {/* Title & Tagline */}
-              <h3 className="text-lg font-semibold tracking-tight text-zinc-100">
+              <h3 className="text-lg font-bold tracking-tight text-zinc-900">
                 {project.title}
               </h3>
-              <p className="mt-1 text-xs font-mono text-zinc-400">
+              <p className="mt-1 text-xs font-mono text-zinc-500">
                 {project.tagline}
               </p>
 
               {/* Summary Description */}
-              <p className="mt-4 text-sm text-zinc-300 leading-relaxed">
+              <p className="mt-3.5 text-sm text-zinc-600 leading-relaxed font-normal">
                 {project.description}
               </p>
 
               {/* Architectural Highlight */}
-              <div className="mt-4 pt-3.5 border-t border-zinc-900">
-                <span className="block text-[11px] uppercase tracking-wider font-mono text-zinc-500 mb-1">
+              <div className="mt-4 pt-3.5 border-t border-zinc-100">
+                <span className="block text-[11px] uppercase tracking-wider font-mono text-zinc-400 mb-1 font-semibold">
                   Architecture Note
                 </span>
-                <p className="text-xs text-zinc-400 leading-relaxed font-mono">
+                <p className="text-xs text-zinc-700 leading-relaxed font-mono bg-zinc-50 border border-zinc-200/60 rounded-md p-3">
                   {project.architectureHighlight}
                 </p>
               </div>
             </div>
 
-            <div className="mt-6 pt-5 border-t border-zinc-900/80">
-              {/* Stack items - unboxed */}
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-mono text-zinc-400 mb-5">
+            <div className="mt-6 pt-5 border-t border-zinc-100">
+              {/* Stack items */}
+              <div className="flex flex-wrap items-center gap-1.5 mb-5">
                 {project.techStack.map((tech, idx) => (
-                  <React.Fragment key={idx}>
-                    <span className="text-zinc-400">{tech}</span>
-                    {idx < project.techStack.length - 1 && (
-                      <span className="text-zinc-700" aria-hidden="true">·</span>
-                    )}
-                  </React.Fragment>
+                  <span
+                    key={idx}
+                    className="rounded bg-zinc-100 px-2 py-0.5 text-xs font-mono text-zinc-700"
+                  >
+                    {tech}
+                  </span>
                 ))}
               </div>
 
@@ -123,7 +129,7 @@ export const Projects: React.FC = () => {
                       href={link.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1 rounded border border-zinc-800 bg-zinc-900 px-2.5 py-1 text-xs font-medium text-zinc-300 hover:border-zinc-700 hover:text-white transition-colors"
+                      className="inline-flex items-center gap-1.5 rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-800 hover:bg-zinc-50 hover:text-blue-600 shadow-2xs transition-colors"
                     >
                       <span>{link.label}</span>
                       <ArrowUpRight className="h-3 w-3 opacity-60" />
@@ -134,7 +140,7 @@ export const Projects: React.FC = () => {
                 <button
                   onClick={() => setSelectedProject(project)}
                   type="button"
-                  className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-100 transition-colors py-1"
+                  className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-700 transition-colors py-1"
                 >
                   <span>Specs</span>
                   <ExternalLink className="h-3 w-3 opacity-70" />

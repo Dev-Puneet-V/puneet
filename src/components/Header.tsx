@@ -7,12 +7,12 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onContactClick }) => {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-zinc-800/70 bg-[#090a0c]/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-zinc-200/80 bg-white/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-8 px-6 py-4 md:px-8">
         {/* Zone 1: Single text wordmark */}
         <a
           href="#top"
-          className="group flex items-baseline gap-2.5 text-base font-semibold tracking-tight text-zinc-100 transition-colors hover:text-white shrink-0"
+          className="group flex items-baseline gap-2.5 text-base font-semibold tracking-tight text-zinc-900 transition-colors hover:text-black shrink-0"
         >
           <span>{RESUME_DATA.name}</span>
           <span className="hidden sm:inline text-xs font-normal text-zinc-500">
@@ -21,28 +21,34 @@ export const Header: React.FC<HeaderProps> = ({ onContactClick }) => {
         </a>
 
         {/* Zone 2: Clean single-line text navigation links */}
-        <nav className="hidden md:flex items-center gap-7 text-sm font-normal text-zinc-400">
+        <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-600">
           <a
             href="#experience"
-            className="whitespace-nowrap shrink-0 transition-colors hover:text-zinc-100"
+            className="whitespace-nowrap shrink-0 transition-colors hover:text-zinc-900"
           >
             Experience
           </a>
           <a
             href="#projects"
-            className="whitespace-nowrap shrink-0 transition-colors hover:text-zinc-100"
+            className="whitespace-nowrap shrink-0 transition-colors hover:text-zinc-900"
           >
             Projects
           </a>
           <a
+            href="#blogs"
+            className="whitespace-nowrap shrink-0 transition-colors hover:text-blue-600"
+          >
+            Blogs
+          </a>
+          <a
             href="#skills"
-            className="whitespace-nowrap shrink-0 transition-colors hover:text-zinc-100"
+            className="whitespace-nowrap shrink-0 transition-colors hover:text-zinc-900"
           >
             Skills
           </a>
           <a
             href="#education"
-            className="whitespace-nowrap shrink-0 transition-colors hover:text-zinc-100"
+            className="whitespace-nowrap shrink-0 transition-colors hover:text-zinc-900"
           >
             Education
           </a>
@@ -53,7 +59,7 @@ export const Header: React.FC<HeaderProps> = ({ onContactClick }) => {
           <button
             onClick={onContactClick}
             type="button"
-            className="rounded-md border border-zinc-700/80 bg-zinc-900 px-3.5 py-1.5 text-xs font-medium text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-800 hover:text-white whitespace-nowrap shrink-0"
+            className="rounded-lg bg-zinc-900 px-3.5 py-1.5 text-xs font-medium text-white shadow-xs transition-colors hover:bg-zinc-800 whitespace-nowrap shrink-0"
           >
             Contact
           </button>
