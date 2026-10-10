@@ -93,6 +93,21 @@ export const RESUME_DATA = {
         "Worked on the SAAS platform used to automate the product addition on multiple ecommerce applications by just one click."
       ],
       technologies: ["React", "TypeScript", "Node.js", "Prisma", "Puppeteer", "OpenAI API", "REST APIs", "Tailwind CSS"]
+    },
+    {
+      id: "zemoso",
+      role: "Software Engineer",
+      company: "Zemoso Technologies",
+      type: "Full Time / Internship",
+      location: "Hyderabad / Remote, India",
+      period: "April 2022 – Nov 2022",
+      summary: "Worked on iOS SDK engineering, diagnosing defects, profiling runtime stability, and fixing critical bugs across native mobile modules.",
+      highlights: [
+        "Worked on iOS SDK codebase, diagnosing runtime defects, memory leaks, and edge-case exceptions.",
+        "Resolved critical bugs across client-facing iOS SDK components to improve stability and integration experience.",
+        "Collaborated with cross-functional mobile engineering teams to maintain backward compatibility across multiple iOS releases."
+      ],
+      technologies: ["iOS", "Swift", "Objective-C", "iOS SDK", "Xcode", "Native Modules"]
     }
   ] as ExperienceItem[],
 
