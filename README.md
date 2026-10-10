@@ -49,4 +49,4 @@ This will build `dist/` and prompt you to log into Cloudflare or specify your Pa
 - **Engineering Notes / Blogs**: Interactive in-depth writeups on MySQL query optimization, offline-first mobile sync, native geofencing, and App Store releases.
 - **Projects & Specs Modals**: Direct store and admin console links with detailed architectural breakdown modals.
 - **Production Metrics ProofBar**: Shipped apps, query latency reduction, and multi-role RBAC numbers.
-- **Cloudflare Pages SPA Routing**: Pre-configured `public/_redirects` (`/* /index.html 200`) and `public/_headers` for high-performance edge caching.
+- **Native Cloudflare Pages Compatibility**: Fast builds and edge deployment without conflicting redirect rules.

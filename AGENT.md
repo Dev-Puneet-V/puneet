@@ -32,5 +32,5 @@ This repository contains the personal portfolio website for **Puneet Verma**, Fu
 - Build command: `npm run build`
 - Output directory: `dist`
 - Framework preset: `Vite`
-- SPA routing support: `public/_redirects` contains `/* /index.html 200`
+- SPA routing: Native Cloudflare Pages routing with index.html fallback
 - Zero-cost deployment supported via Cloudflare Pages free tier.
