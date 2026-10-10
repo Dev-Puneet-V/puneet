@@ -259,9 +259,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ contactRef, onOpen
                 )}
 
                 <div className="pt-1 flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-zinc-400">
-                    Protected by CORS & spam filters
-                  </span>
+
 
                   <button
                     type="submit"
