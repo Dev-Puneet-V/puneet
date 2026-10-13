@@ -7,6 +7,27 @@ interface BlogModalProps {
   onClose: () => void;
 }
 
+const renderInlineFormatted = (text: string): React.ReactNode => {
+  const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <strong key={i} className="font-semibold text-zinc-900">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    if (part.startsWith('`') && part.endsWith('`')) {
+      return (
+        <code key={i} className="font-mono text-xs bg-zinc-100 text-zinc-800 px-1.5 py-0.5 rounded border border-zinc-200">
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+    return part;
+  });
+};
+
 export const BlogModal: React.FC<BlogModalProps> = ({ post, onClose }) => {
   const [copied, setCopied] = React.useState(false);
 
@@ -138,12 +159,29 @@ export const BlogModal: React.FC<BlogModalProps> = ({ post, onClose }) => {
         )}
 
         {/* Article Body */}
-        <div className="mt-8 space-y-5 text-sm sm:text-base text-zinc-700 leading-relaxed">
-          {post.content.map((paragraph, pIdx) => (
-            <p key={pIdx}>
-              {paragraph}
-            </p>
-          ))}
+        <div className="mt-8 space-y-4 text-sm sm:text-base text-zinc-700 leading-relaxed">
+          {post.content.map((paragraph, pIdx) => {
+            if (paragraph.startsWith('### ')) {
+              return (
+                <h3 key={pIdx} className="text-base sm:text-lg font-semibold text-zinc-900 pt-3 tracking-tight">
+                  {paragraph.replace('### ', '')}
+                </h3>
+              );
+            }
+            if (paragraph.startsWith('• ') || paragraph.startsWith('- ')) {
+              return (
+                <div key={pIdx} className="flex items-start gap-2.5 pl-1.5 text-zinc-700">
+                  <span className="h-1.5 w-1.5 rounded-full bg-blue-600 mt-2 shrink-0" />
+                  <div className="flex-1 leading-relaxed">{renderInlineFormatted(paragraph.slice(2))}</div>
+                </div>
+              );
+            }
+            return (
+              <p key={pIdx} className="leading-relaxed">
+                {renderInlineFormatted(paragraph)}
+              </p>
+            );
+          })}
         </div>
 
         {/* Footer Note */}

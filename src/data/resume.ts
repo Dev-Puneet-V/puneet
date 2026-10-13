@@ -68,7 +68,7 @@ export const RESUME_DATA = {
       summary: "Architected system design, relational database schemas, and dual-platform mobile apps powering 5 distinct operational roles. Owned end-to-end features from database to API to native code and store releases.",
       highlights: [
         "Designed the architecture, DB Design and set up the codebase for Mobile app in React Native, Backend in Nodejs, Redis, MYSql, Typescript, Frontend in React and React-Query for 5 roles.",
-        "Optimized response query time from 2.2 seconds to 800ms by optimizing the db query adding indexes, processing only the required data.",
+        "Optimized response query time from 2.2s to 800ms and slashed heavy reporting endpoint latency from 59s to 1.2s via a Paginate-First subquery decoupling architecture.",
         "Improved security of overall application using the API Ratelimiter, JWT auth and cors.",
         "Integrated code reviews checks for best practices using pre commit hooks, es-lint.",
         "Created subagents documents for AI Agents to utilize for fast and smooth development.",
@@ -214,7 +214,7 @@ export const RESUME_DATA = {
         "MongoDB",
         "Redis Caching",
         "Composite DB Indexing",
-        "Query Optimization (2.2s → 800ms)",
+        "Query Optimization (59s → 1.2s & 2.2s → 800ms)",
         "Relational Schema Architecture",
         "Projection & Payload Optimization"
       ]
@@ -236,6 +236,42 @@ export const RESUME_DATA = {
   ],
 
   blogs: [
+    {
+      id: "customer-payment-summary-optimization",
+      title: "Optimizing Customer Payment Summary Query from 59s to 1.2s: The Paginate-First Pattern",
+      slug: "customer-payment-summary-query-optimization",
+      summary: "How diagnosing 1,400 correlated subquery evaluations on a 700-row customer payment summary endpoint slashed API latency from ~58 seconds to 1.2 seconds using a two-step Paginate-First architecture.",
+      date: "October 2026",
+      readTime: "5 min read",
+      tags: ["MySQL", "Node.js", "Performance", "Query Optimization", "Database Architecture"],
+      keyTakeaways: [
+        "Correlated subqueries inside SELECT execute before ORDER BY + LIMIT are applied, evaluating computations across every row in the table.",
+        "With ~700 customers and 2 subqueries, MySQL was performing 1,400 heavy multi-table subquery scans per page request.",
+        "The Paginate-First pattern decouples row selection from heavy aggregation by querying only the 10 customer IDs first using a fast index scan.",
+        "Subquery executions plunged from 1,400 down to 20, cutting latency from ~58s to 1.2s with a 100% identical data contract and zero regressions."
+      ],
+      content: [
+        "### The Problem: A 59-Second Bottleneck on 700 Records",
+        "In production enterprise systems, severe latency bottlenecks frequently hide inside seemingly standard paginated endpoints. During a performance investigation of our customer management APIs, the `GET /api/v1/customers/payment-summary` endpoint exhibited an execution time of ~58 to 59 seconds.",
+        "What made this especially striking was the dataset size: there were only ~700 customer records in the database. Yet requesting page 1 with `LIMIT 10 OFFSET 0` was stalling client applications, tying up Node.js event-loop workers, and holding open active MySQL connections.",
+        "### Root Cause: The Correlated Subquery Trap",
+        "Upon analyzing the SQL execution plan and profiling with MySQL `EXPLAIN`, the root cause became clear. The original query calculated lifetime customer order metrics using two correlated scalar subqueries (`SUM(o2.total_paid)` and `SUM(o2.total_amount)`) directly inside the `SELECT` clause, while sorting the final dataset by customer name (`ORDER BY u.name ASC`).",
+        "Because sorting occurred after row projection, MySQL was forced to evaluate both multi-table subqueries for **all 700 customers across the entire database** before it could sort the rows and apply `LIMIT 10 OFFSET 0`.",
+        "• 700 customers × 2 scalar subqueries = **1,400 multi-table subquery scans** per single API request.",
+        "As historical orders and ledger entries had accumulated, each of those 1,400 subqueries scanned thousands of transactional rows, multiplying database I/O and creating an exponential compute bottleneck.",
+        "### The Fix: The Two-Step \"Paginate-First\" Architecture",
+        "Instead of calculating order totals for every customer in the database prior to pagination, we decoupled the query into two simple, highly efficient steps:",
+        "• **Step 1 — Paginate Customer IDs First:** Fetch exclusively the 10 customer IDs for the current page using a fast index scan (`SELECT u.id FROM users u ORDER BY u.name ASC LIMIT ? OFFSET ?`). Because this query touches only indexed fields without any subqueries or table joins, it executes in single-digit milliseconds.",
+        "• **Step 2 — Calculate Only for Those 10 Customers:** Execute the exact calculation query containing the financial totals and business rules, but scoped strictly to those 10 retrieved IDs (`WHERE u.id IN (?)`).",
+        "### Results & Verification",
+        "By restricting heavy aggregations exclusively to the visible viewport, the query performance changed dramatically:",
+        "• **Subquery Executions:** Dropped from **1,400 down to exactly 20** (for 10 customers on the page).",
+        "• **Latency:** Reduced from **~58 seconds down to 1.2 seconds** (>97% speedup).",
+        "• **Data Contract:** 100% identical return payload, sort order, filters, and business logic, requiring zero changes in frontend clients.",
+        "### Key Engineering Takeaway",
+        "Never calculate expensive aggregations before you bound the result set. When paginating datasets with computed columns, decouple ID pagination from computation: bound your keys first, then compute only what the user actually sees."
+      ]
+    },
     {
       id: "query-optimization",
       title: "Optimizing Database Query Latency from 2.2s to 800ms in Production",
